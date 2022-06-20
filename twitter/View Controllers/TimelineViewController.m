@@ -19,7 +19,7 @@
     [super viewDidLoad];
     
     // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error){
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             for (NSDictionary *dictionary in tweets) {
