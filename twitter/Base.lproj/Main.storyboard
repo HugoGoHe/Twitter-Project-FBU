@@ -138,6 +138,17 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="createdAtLabel" destination="raG-Ho-h13" id="KEv-x9-VZk"/>
+                                            <outlet property="favoriteButton" destination="wf0-jQ-OvE" id="brN-vE-p5Y"/>
+                                            <outlet property="favoriteCountLabel" destination="oBC-qR-fXT" id="Rgz-nz-7cg"/>
+                                            <outlet property="name" destination="zqy-Kh-gSx" id="Dk5-E2-pUe"/>
+                                            <outlet property="profileImage" destination="G9d-EZ-QAV" id="ipT-9j-p8q"/>
+                                            <outlet property="retweetButton" destination="U8b-hz-arW" id="zYK-Qu-5wP"/>
+                                            <outlet property="retweetCountLabel" destination="Qzc-YX-GF3" id="n90-E2-GTk"/>
+                                            <outlet property="screenNameLabel" destination="6Ki-LK-GN9" id="caM-kE-B8q"/>
+                                            <outlet property="textLabel" destination="nzG-ne-6Rl" id="Pn2-he-fuW"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
