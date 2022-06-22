@@ -7,6 +7,8 @@
 //
 
 #import "APIManager.h"
+#import "Tweet.h"
+
 
 static NSString * const baseURLString = @"https://api.twitter.com";
 
@@ -54,6 +56,7 @@ static NSString * const baseURLString = @"https://api.twitter.com";
 
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
     
+   /*
     [self GET:@"1.1/statuses/home_timeline.json"
    parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
        
@@ -75,6 +78,17 @@ static NSString * const baseURLString = @"https://api.twitter.com";
        
        completion(tweetDictionaries, error);
    }];
+    */
+    
+    [self GET:@"1.1/statuses/home_timeline.json"
+       parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+           // Success
+           NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries];
+           completion(tweets, nil);
+       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+           // There was a problem
+           completion(nil, error);
+    }];
 }
 
 @end
