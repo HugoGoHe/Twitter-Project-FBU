@@ -19,6 +19,7 @@
 
 @property NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -27,9 +28,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
+    [self getTweets];
+    
+    // Initialize a UIRefreshControl
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(getTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+
+}
+
+-(void)getTweets{
     // Get timeline
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error){
         
@@ -46,19 +58,27 @@
             }
             NSLog(@"%@", self.arrayOfTweets);
             [self.tableView reloadData];
+            // Tell the refreshControl to stop spinning
 
         } else {
+            NSLog(@"%@", [error localizedDescription]);
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot Get Tweets"
+                                           message:@"The internet connection appears to be offline."
+                                           preferredStyle:UIAlertControllerStyleAlert];
+             
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+               handler:^(UIAlertAction * action) {}];
+             
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
-        
+        [self.refreshControl endRefreshing];
+
         
     }];
-    
-    
-    
-    
-    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
