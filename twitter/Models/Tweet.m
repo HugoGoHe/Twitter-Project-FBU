@@ -54,7 +54,7 @@
 
 //Factory method
 //Returns Tweets when initialized with an array of Tweet dictionaries
-+ (NSMutableArray *)tweetsWithArray:(NSArray *)dictionaries {
++ (NSMutableArray *)tweetsWithArray:(NSArray*)dictionaries {
     NSMutableArray *tweets = [NSMutableArray array];
     for (NSDictionary *dictionary in dictionaries) {
         Tweet *tweet = [[Tweet alloc] initWithDictionary:dictionary];
