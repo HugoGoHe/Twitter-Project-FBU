@@ -7,6 +7,9 @@
 //
 
 #import "ComposeViewController.h"
+#import "APIManager.h"
+#import "Tweet.h"
+#import "TimelineViewController.h"
 
 @interface ComposeViewController ()
 
@@ -32,6 +35,30 @@
     [self dismissViewControllerAnimated:true completion:nil];
 }
 - (IBAction)TweetButton:(id)sender {
+//    [[APIManager shared] postStatusWithText:(self.TweetTextView.text)];
+    
+    [[APIManager shared]postStatusWithText:self.TweetTextView.text completion:^(Tweet *tweet, NSError *error) {
+        if(error){
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot Upload Tweet"
+                                           message:@"The internet connection appears to be offline."
+                                           preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+               handler:^(UIAlertAction * action) {}];
+             
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            NSLog(@"Error composing Tweet: %@", error.localizedDescription);
+        }
+        else{
+            [self.delegate didTweet:tweet];
+            NSLog(@"Compose Tweet Success!");
+            [self dismissViewControllerAnimated:true completion:nil];
+        }
+    }];
+    
 }
+
+
 
 @end

@@ -13,9 +13,9 @@
 #import "LoginViewController.h"
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
+#import "ComposeViewController.h"
 
-
-@interface TimelineViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface TimelineViewController () <UITableViewDataSource,UITableViewDelegate, ComposeViewControllerDelegate>
 
 @property NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -79,6 +79,13 @@
     }];
 }
 
+-(void) didTweet:(Tweet *)tweet{
+    [self.arrayOfTweets insertObject:tweet atIndex:0];
+    [self.tableView reloadData];
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -129,15 +136,20 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+    composeController.delegate = self;
+
+    
 }
-*/
+
 
 
 @end
