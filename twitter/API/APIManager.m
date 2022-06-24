@@ -67,6 +67,7 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// FUNCTION TO POST A TWEET
 - (void)postStatusWithText:(NSString *)text completion:(void (^)(Tweet *tweet, NSError *error))completion {
     NSString *urlString = @"1.1/statuses/update.json";
     NSDictionary *parameters = @{@"status": text};
@@ -78,7 +79,7 @@ static NSString * const baseURLString = @"https://api.twitter.com";
         completion(nil, error);
     }];
 }
-
+// FUNCTION TO FAV A TWEET
 - (void)favorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
 
     NSString *urlString = @"1.1/favorites/create.json";
@@ -91,9 +92,36 @@ static NSString * const baseURLString = @"https://api.twitter.com";
     }];
 }
 
+// FUNCTION TO UNFAV A TWEET
 - (void)unfavorite:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
 
-    NSString *urlString = @".1/favorites/destroy.json";
+    NSString *urlString = @"1.1/favorites/destroy.json";
+    NSDictionary *parameters = @{@"id": tweet.idStr};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+// FUNCTION TO RETWEET A TWEET
+- (void)retweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+
+    NSString *urlString = @"1.1/statuses/retweet/:id.json";
+    NSDictionary *parameters = @{@"id": tweet.idStr};
+    [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
+        Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
+        completion(tweet, nil);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        completion(nil, error);
+    }];
+}
+
+//FUNCTION TO UNRETWEET A TWEET
+- (void)unretweet:(Tweet *)tweet completion:(void (^)(Tweet *, NSError *))completion {
+
+    NSString *urlString = @"1.1/statuses/unretweet/:id.json";
     NSDictionary *parameters = @{@"id": tweet.idStr};
     [self POST:urlString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSDictionary *  _Nullable tweetDictionary) {
         Tweet *tweet = [[Tweet alloc]initWithDictionary:tweetDictionary];
