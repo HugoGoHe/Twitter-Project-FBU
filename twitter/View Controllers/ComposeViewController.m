@@ -34,6 +34,7 @@
 - (IBAction)CloseButton:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
 - (IBAction)TweetButton:(id)sender {
 //    [[APIManager shared] postStatusWithText:(self.TweetTextView.text)];
     

@@ -11,9 +11,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DetailsPageViewControllerDelegate
+-(void)updateTweets;
+
+@end
+
 @interface DetailsPageViewController : UIViewController
 
 @property(strong, nonatomic) Tweet *selectedTweet;
+@property (nonatomic,weak) id<DetailsPageViewControllerDelegate> delegate;
 
 @end
 

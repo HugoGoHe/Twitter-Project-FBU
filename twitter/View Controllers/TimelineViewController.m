@@ -16,7 +16,7 @@
 #import "ComposeViewController.h"
 #import "DetailsPageViewController.h"
 
-@interface TimelineViewController () <UITableViewDataSource,UITableViewDelegate, ComposeViewControllerDelegate>
+@interface TimelineViewController () <UITableViewDataSource,UITableViewDelegate, ComposeViewControllerDelegate, DetailsPageViewControllerDelegate>
 
 @property NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -26,10 +26,12 @@
 
 @implementation TimelineViewController
 
+-(void)updateTweets {
+    [self getTweets];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
     
 
     self.tableView.dataSource = self;
@@ -123,6 +125,7 @@
     cell.createdAtLabel.text = tweet.createdAtString;
     cell.textTweetLabel.text = tweet.text;
     
+    
     cell.retweetCountLabel.text = [NSString stringWithFormat:@"%d", tweet.retweetCount];
 
     cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
@@ -132,6 +135,7 @@
    // NSData *urlData = [NSData dataWithContentsOfURL:url];
     
     [cell.profileView setImageWithURL:url];
+    [cell refreshData];
     
     
     return cell;
@@ -163,6 +167,8 @@
         Tweet *selectedTweet = self.arrayOfTweets[index];
         DetailsPageViewController *detailsPageVC  = (DetailsPageViewController*) navigationController.topViewController;
         detailsPageVC.selectedTweet = selectedTweet;
+        detailsPageVC.delegate = self;
+
         
     }
 
