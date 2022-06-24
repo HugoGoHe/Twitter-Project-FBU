@@ -14,6 +14,7 @@
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "ComposeViewController.h"
+#import "DetailsPageViewController.h"
 
 @interface TimelineViewController () <UITableViewDataSource,UITableViewDelegate, ComposeViewControllerDelegate>
 
@@ -145,11 +146,26 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
+
+    if ([[segue identifier] isEqualToString:@"compose"]){
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
 
     
+    
+    //DETAILS PAGE VIEW CONTROLLER
+    if([[segue identifier] isEqualToString:@"details"]){
+        NSIndexPath *myIndexPath = [self.tableView indexPathForCell:sender];
+        NSInteger index = myIndexPath.row;
+        UINavigationController *navigationController = [segue destinationViewController];
+        Tweet *selectedTweet = self.arrayOfTweets[index];
+        DetailsPageViewController *detailsPageVC  = (DetailsPageViewController*) navigationController.topViewController;
+        detailsPageVC.selectedTweet = selectedTweet;
+        
+    }
+
 }
 
 

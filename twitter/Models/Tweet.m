@@ -11,6 +11,8 @@
 
 @implementation Tweet
 
+
+
 //Initializer with dictionary (Tweet's JSON)
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
@@ -47,7 +49,7 @@
         formatter.dateStyle = NSDateFormatterShortStyle;
         formatter.timeStyle = NSDateFormatterNoStyle;
         // Convert Date to String
-        self.createdAtString = [formatter stringFromDate:date];
+        self.dateNoFormat = date;
         self.createdAtString = date.shortTimeAgoSinceNow;
     }
     return self;
