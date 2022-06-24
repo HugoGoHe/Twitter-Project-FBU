@@ -8,11 +8,14 @@
 #import "APIManager.h"
 #import "TweetCell.h"
 
+
 @implementation TweetCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.profileView.layer.cornerRadius = self.profileView.frame.size.width / 2;
+    self.profileView.clipsToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
